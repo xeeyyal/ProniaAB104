@@ -28,15 +28,60 @@ namespace ProniaAB104.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid) return View();
 
-            bool result = _context.Tags.Any(c => c.Name.ToLower().Trim() == tag.Name.ToLower().Trim());
+            bool result = _context.Tags.Any(c => c.Name.Trim() == tag.Name.Trim());
             if (result)
             {
                 ModelState.AddModelError("Name", "Bu Tag artiq movcuddur.");
                 return View();
             }
+
             await _context.Tags.AddAsync(tag);
             await _context.SaveChangesAsync();
-            return RedirectToAction("index");
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            if (id <= 0) return BadRequest();
+
+            Tag tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (tag is null) return NotFound();
+
+            return View(tag);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, Tag tag)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            Tag existed = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
+
+            bool result = _context.Tags.Any(t => t.Name == tag.Name && t.Id != id);
+
+            if (result)
+            {
+                ModelState.AddModelError("Name", "Bu adda tag artiq movcuddur");
+                return View();
+            }
+            existed.Name = tag.Name;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (id <= 0) return BadRequest();
+
+            Tag existed = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
+
+            if (existed is null) return NotFound();
+
+            _context.Tags.Remove(existed);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

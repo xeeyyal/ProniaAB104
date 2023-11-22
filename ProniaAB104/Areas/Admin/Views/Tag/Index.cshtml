@@ -28,9 +28,9 @@
                                         <td> @tag.Name </td>
                                         <td> @tag.ProductTags.Count </td>
                                         <td>
-                                            <a class="btn btn-info "> <i class="mdi mdi-pen"></i> Update</a>
-                                            <a class="btn btn-danger  "> <i class="mdi mdi-delete"></i> Delete</a>
-                                            <a class="btn btn-secondary "> <i class="mdi mdi-alert-box"></i> Details</a>
+                                            <a asp-action="update" asp-controller="tag" asp-route-id="@tag.Id" class="btn btn-info "> <i class="mdi mdi-pen"></i> Update</a>
+                                            <a asp-action="delete" asp-controller="tag" asp-route-id="@tag.Id" class="btn btn-danger  "> <i class="mdi mdi-delete"></i> Delete</a>
+                                            <a asp-action="details" asp-controller="tag" asp-route-id="@tag.Id" class="btn btn-secondary "> <i class="mdi mdi-alert-box"></i> Details</a>
                                         </td>
                                     </tr>
                                 }

@@ -749,12 +749,36 @@
       "PackagePath": "staticwebassets\\assets\\images\\sidebar\\banner\\1-270x300.jpg"
     },
     {
+      "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\1-1-524x617.png",
+      "PackagePath": "staticwebassets\\assets\\images\\slider\\1-1-524x617.png"
+    },
+    {
+      "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\1-2-524x617.png",
+      "PackagePath": "staticwebassets\\assets\\images\\slider\\1-2-524x617.png"
+    },
+    {
       "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\bg\\1-1.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\slider\\bg\\1-1.jpg"
     },
     {
       "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\bg\\2-1.jpg",
       "PackagePath": "staticwebassets\\assets\\images\\slider\\bg\\2-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\f1.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\slider\\f1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\f2.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\slider\\f2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\flow-1.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\slider\\flow-1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\flow-2.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\slider\\flow-2.jpg"
     },
     {
       "Id": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\slider\\inner-img\\1-1-524x617.png",
