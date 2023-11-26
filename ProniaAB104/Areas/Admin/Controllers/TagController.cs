@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProniaAB104.Areas.Admin.ViewModels;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
 
@@ -24,16 +25,21 @@ namespace ProniaAB104.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Tag tag)
+        public async Task<IActionResult> Create(CreateTagVM tagVM)
         {
             if (!ModelState.IsValid) return View();
 
-            bool result = _context.Tags.Any(c => c.Name.Trim() == tag.Name.Trim());
+            bool result = _context.Tags.Any(c => c.Name.Trim() == tagVM.Name.Trim());
             if (result)
             {
                 ModelState.AddModelError("Name", "Bu Tag artiq movcuddur.");
                 return View();
             }
+
+            Tag tag=new Tag
+            {
+                Name = tagVM.Name
+            };
 
             await _context.Tags.AddAsync(tag);
             await _context.SaveChangesAsync();
@@ -48,10 +54,15 @@ namespace ProniaAB104.Areas.Admin.Controllers
 
             if (tag is null) return NotFound();
 
-            return View(tag);
+            UpdateTagVM updateTagVM = new UpdateTagVM
+            {
+                Name = tag.Name,
+            };
+
+            return View(updateTagVM);
         }
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Tag tag)
+        public async Task<IActionResult> Update(int id, UpdateTagVM tagVM)
         {
             if (!ModelState.IsValid)
             {
@@ -59,14 +70,15 @@ namespace ProniaAB104.Areas.Admin.Controllers
             }
             Tag existed = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
 
-            bool result = _context.Tags.Any(t => t.Name == tag.Name && t.Id != id);
+            bool result = _context.Tags.Any(t => t.Name == tagVM.Name && t.Id != id);
 
             if (result)
             {
                 ModelState.AddModelError("Name", "Bu adda tag artiq movcuddur");
                 return View();
             }
-            existed.Name = tag.Name;
+
+            existed.Name = tagVM.Name;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -82,6 +94,18 @@ namespace ProniaAB104.Areas.Admin.Controllers
             _context.Tags.Remove(existed);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id <= 0) return BadRequest();
+            Tag tag = await _context.Tags.Include(c => c.ProductTags).
+                ThenInclude(p => p.Product).
+                ThenInclude(p => p.ProductImages).
+                FirstOrDefaultAsync(s => s.Id == id);
+            if (tag == null) return NotFound();
+
+            return View(tag);
         }
     }
 }

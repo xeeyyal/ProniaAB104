@@ -32,6 +32,8 @@
                                         <td> @slide.Title </td>
                                         <td> @slide.Order </td>
                                         <td>
+                                            <a asp-action="update" asp-controller="slide" asp-route-id="@slide.Id" class="btn btn-info "> <i class="mdi mdi-pen"></i> Update</a>
+                                            <a asp-action="delete" asp-controller="slide" asp-route-id="@slide.Id" class="btn btn-danger  "> <i class="mdi mdi-delete"></i> Delete</a>
                                             <a asp-action="details" asp-controller="slide" asp-route-id="@slide.Id" class="btn btn-secondary "> <i class="mdi mdi-alert-box"></i> Details</a>
                                         </td>
                                     </tr>

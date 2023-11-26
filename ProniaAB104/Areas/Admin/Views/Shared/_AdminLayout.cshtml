@@ -187,7 +187,7 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="http://localhost:5228/admin">
                             <i class="mdi mdi-home menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
@@ -200,6 +200,7 @@
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" asp-action="index" asp-controller="product">Product</a></li>
                                 <li class="nav-item"> <a class="nav-link" asp-action="index" asp-controller="category">Category</a></li>
                                 <li class="nav-item"> <a class="nav-link" asp-action="index" asp-controller="tag">Tag</a></li>
                                 <li class="nav-item"> <a class="nav-link" asp-action="index" asp-controller="slide">Slide</a></li>

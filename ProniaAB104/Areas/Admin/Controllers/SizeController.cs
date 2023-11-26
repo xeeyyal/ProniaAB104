@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProniaAB104.Areas.Admin.ViewModels;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
 
@@ -25,18 +26,23 @@ namespace ProniaAB104.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Size size)
+        public async Task<IActionResult> Create(CreateSizeVM sizeVM)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            bool result = _context.Sizes.Any(c => c.Name.ToLower().Trim() == size.Name.ToLower().Trim());
+            bool result = _context.Sizes.Any(c => c.Name.ToLower().Trim() == sizeVM.Name.ToLower().Trim());
             if (result)
             {
                 ModelState.AddModelError("Name", "Bu olcude artiq movcuddur");
                 return View();
             }
+
+            Size size = new Size
+            {
+                Name = sizeVM.Name
+            };
             await _context.Sizes.AddAsync(size);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -48,24 +54,29 @@ namespace ProniaAB104.Areas.Admin.Controllers
             Size size = await _context.Sizes.FirstOrDefaultAsync(c => c.Id == id);
             if (size is null) return NotFound();
 
-            return View(size);
+            UpdateSizeVM sizeVM = new UpdateSizeVM
+            {
+                Name = size.Name
+            };
+
+            return View(sizeVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Size size)
+        public async Task<IActionResult> Update(int id, UpdateSizeVM sizeVM)
         {
             if (!ModelState.IsValid) return View();
 
             Size existed = await _context.Sizes.FirstOrDefaultAsync(c => c.Id == id);
             if (existed is null) return NotFound();
-            bool result = _context.Sizes.Any(c => c.Name == size.Name && c.Id != id);
+            bool result = _context.Sizes.Any(c => c.Name == sizeVM.Name && c.Id != id);
             if (result)
             {
                 ModelState.AddModelError("Name", "Bu olcude artiq movcuddur");
                 return View();
             }
 
-            existed.Name = size.Name;
+            existed.Name = sizeVM.Name;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

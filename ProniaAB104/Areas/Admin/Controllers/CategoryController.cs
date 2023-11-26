@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProniaAB104.Areas.Admin.ViewModels;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
 
@@ -24,19 +25,25 @@ namespace ProniaAB104.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create(CreateCategoryVM categoryVM)
         {
             if (!ModelState.IsValid) return View();
 
-            bool result = _context.Categories.Any(c => c.Name.ToLower().Trim() == category.Name.ToLower().Trim());
+            bool result = _context.Categories.Any(c => c.Name.ToLower().Trim() == categoryVM.Name.ToLower().Trim());
             if (result)
             {
                 ModelState.AddModelError("Name", "Bu Kateqoriya artiq movcuddur.");
                 return View();
             }
+
+            Category category= new Category
+            {
+                Name = categoryVM.Name 
+            };
+
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
-            return RedirectToAction("index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update(int id)
@@ -47,10 +54,12 @@ namespace ProniaAB104.Areas.Admin.Controllers
 
             if (category is null) return NotFound();
 
-            return View(category);
+            UpdateCategoryVM categoryVM = new UpdateCategoryVM { Name = category.Name };
+
+            return View(categoryVM);
         }
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Category category)
+        public async Task<IActionResult> Update(int id, UpdateCategoryVM categoryVM)
         {
             if (!ModelState.IsValid)
             {
@@ -61,13 +70,13 @@ namespace ProniaAB104.Areas.Admin.Controllers
 
             if (existed is null) return NotFound();
 
-            bool result = _context.Categories.Any(c => c.Name == category.Name && c.Id != id);
+            bool result = _context.Categories.Any(c => c.Name == categoryVM.Name && c.Id != id);
             if (result)
             {
                 ModelState.AddModelError("Name", "Bu adda category artiq movcuddur");
                 return View();
             }
-            existed.Name = category.Name;
+            existed.Name = categoryVM.Name;
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

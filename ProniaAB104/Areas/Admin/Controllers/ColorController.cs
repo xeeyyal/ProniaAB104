@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProniaAB104.Areas.Admin.ViewModels;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
 using System.Drawing;
@@ -27,21 +28,26 @@ namespace ProniaAB104.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Color color)
+        public async Task<IActionResult> Create(CreateColorVM colorVM)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            bool result = _context.Colors.Any(c => c.Name.ToLower().Trim() == color.Name.ToLower().Trim());
+            bool result = _context.Colors.Any(c => c.Name.ToLower().Trim() == colorVM.Name.ToLower().Trim());
             if (result)
             {
-                ModelState.AddModelError("Name", "This color already exists");
+                ModelState.AddModelError("Name", "Bu rengde artiq movcuddur");
                 return View();
             }
+            Color color = new Color
+            {
+                Name = colorVM.Name
+            };
+
             await _context.Colors.AddAsync(color);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update(int id)
@@ -50,24 +56,29 @@ namespace ProniaAB104.Areas.Admin.Controllers
             Color color = await _context.Colors.FirstOrDefaultAsync(c => c.Id == id);
             if (color is null) return NotFound();
 
-            return View(color);
+            UpdateColorVM colorVM = new UpdateColorVM
+            {
+                Name = color.Name,
+            };
+
+            return View(colorVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Color color)
+        public async Task<IActionResult> Update(int id, UpdateColorVM colorVM)
         {
             if (!ModelState.IsValid) return View();
 
             Color existed = await _context.Colors.FirstOrDefaultAsync(c => c.Id == id);
             if (existed is null) return NotFound();
-            bool result = _context.Colors.Any(c => c.Name == color.Name && c.Id != id);
+            bool result = _context.Colors.Any(c => c.Name == colorVM.Name && c.Id != id);
             if (result)
             {
-                ModelState.AddModelError("Name", "There is already such color");
+                ModelState.AddModelError("Name", "Bu rengde artiq movcuddur");
                 return View();
             }
 
-            existed.Name = color.Name;
+            existed.Name = colorVM.Name;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

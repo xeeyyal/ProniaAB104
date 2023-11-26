@@ -26,7 +26,7 @@ namespace ProniaAB104.Utilities.Extensions
             string fileName = $"{Guid.NewGuid()}{fileExtension}";
 
             string path = CreatePath(root, fileName, folders);
-            using (var fileStream = new FileStream(path, FileMode.Create))
+            using (FileStream fileStream = new FileStream(path, FileMode.Create))
             {
                 await file.CopyToAsync(fileStream);
             }
