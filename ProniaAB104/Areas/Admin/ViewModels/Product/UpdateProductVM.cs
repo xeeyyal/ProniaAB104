@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ProniaAB104.Areas.Admin.ViewModels
 {
-    public class CreateProductVM
+    public class UpdateProductVM
     {
         [Required]
         public string Name { get; set; }
