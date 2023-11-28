@@ -152,10 +152,10 @@
                                         <div class="product-img">
                                             <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
                                                 <img class="primary-img"
-                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true).Url"
+                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true)?.Url"
                                                      alt="Product Images" />
                                                 <img class="secondary-img"
-                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false).Url"
+                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false)?.Url"
                                                      alt="Product Images" />
                                             </a>
                                             <div class="product-add-action">
@@ -231,10 +231,10 @@
                                         <div class="product-img">
                                             <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
                                                 <img class="primary-img"
-                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true).Url"
+                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true)?.Url"
                                                      alt="Product Images" />
                                                 <img class="secondary-img"
-                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false).Url"
+                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false)?.Url"
                                                      alt="Product Images" />
                                             </a>
                                             <div class="product-add-action">
@@ -310,10 +310,10 @@
                                         <div class="product-img">
                                             <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.Id">
                                                 <img class="primary-img"
-                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true).Url"
+                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true)?.Url"
                                                      alt="Product Images" />
                                                 <img class="secondary-img"
-                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false).Url"
+                                                     src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false)?.Url"
                                                      alt="Product Images" />
                                             </a>
                                             <div class="product-add-action">
@@ -482,10 +482,10 @@
                                 <div class="product-img">
                                     <a >
                                         <img class="primary-img"
-                                             src="~/assets/images/website-images//@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true).Url"
+                                             src="~/assets/images/website-images//@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true)?.Url"
                                              alt="Product Images" />
                                         <img class="secondary-img"
-                                             src="~/assets/images/website-images//@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false).Url"
+                                             src="~/assets/images/website-images//@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==false)?.Url"
                                              alt="Product Images" />
                                     </a>
                                     <div class="product-add-action">

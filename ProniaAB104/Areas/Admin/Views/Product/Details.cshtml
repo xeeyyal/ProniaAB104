@@ -6,7 +6,7 @@
     <div class="card-body">
         <dl class="row">
             <div>
-                <img width="150px" src="~/assets/images/website-images/@Model.ProductImages.FirstOrDefault(p=>p.IsPrimary==true).Url">
+                <img width="150px" src="~/assets/images/website-images/@Model.ProductImages.FirstOrDefault(p=>p.IsPrimary==true)?.Url">
             </div>
             <dt class="col-sm-3">Product ID:</dt>
             <dd class="col-sm-9">@Model.Id</dd>

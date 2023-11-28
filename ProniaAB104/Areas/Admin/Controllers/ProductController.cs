@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using ProniaAB104.Areas.Admin.ViewModels;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
+using ProniaAB104.Utilities.Extensions;
+using System.Drawing;
+using System.Security.Cryptography;
 
 namespace ProniaAB104.Areas.Admin.Controllers
 {
@@ -10,10 +13,12 @@ namespace ProniaAB104.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductController(AppDbContext context)
+        public ProductController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         public async Task<IActionResult> Index()
@@ -111,6 +116,60 @@ namespace ProniaAB104.Areas.Admin.Controllers
                 }
             }
 
+            if (!productVM.MainPhoto.ValidateType("image/"))
+            {
+                ViewBag.Categories = await _context.Categories.ToListAsync();
+                ViewBag.Tags = await _context.Tags.ToListAsync();
+                ViewBag.Sizes = await _context.Sizes.ToListAsync();
+                ViewBag.Colors = await _context.Colors.ToListAsync();
+                ModelState.AddModelError("MainPhoto", "File tipi uygun deyil");
+                return View();
+            }
+
+            if (!productVM.MainPhoto.ValidateSize(500))
+            {
+                ViewBag.Categories = await _context.Categories.ToListAsync();
+                ViewBag.Tags = await _context.Tags.ToListAsync();
+                ViewBag.Sizes = await _context.Sizes.ToListAsync();
+                ViewBag.Colors = await _context.Colors.ToListAsync();
+                ModelState.AddModelError("MainPhoto", "File olcusu uygun deyil:500Kb");
+                return View();
+            }
+
+            if (!productVM.HoverPhoto.ValidateType("image/"))
+            {
+                ViewBag.Categories = await _context.Categories.ToListAsync();
+                ViewBag.Tags = await _context.Tags.ToListAsync();
+                ViewBag.Sizes = await _context.Sizes.ToListAsync();
+                ViewBag.Colors = await _context.Colors.ToListAsync();
+                ModelState.AddModelError("HoverPhoto", "File tipi uygun deyil");
+                return View();
+            }
+
+            if (!productVM.HoverPhoto.ValidateSize(500))
+            {
+                ViewBag.Categories = await _context.Categories.ToListAsync();
+                ViewBag.Tags = await _context.Tags.ToListAsync();
+                ViewBag.Sizes = await _context.Sizes.ToListAsync();
+                ViewBag.Colors = await _context.Colors.ToListAsync();
+                ModelState.AddModelError("HoverPhoto", "File olcusu uygun deyil:500Kb");
+                return View();
+            }
+
+            ProductImage mainImage = new ProductImage
+            {
+                Alternative = productVM.Name,
+                IsPrimary = true,
+                Url = await productVM.MainPhoto.CreateFile(_env.WebRootPath, "assets", "images", "website-images")
+            };
+
+            ProductImage hoverImage = new ProductImage
+            {
+                Alternative = productVM.Name,
+                IsPrimary = false,
+                Url = await productVM.HoverPhoto.CreateFile(_env.WebRootPath, "assets", "images", "website-images")
+            };
+
             Product product = new Product
             {
                 Name = productVM.Name,
@@ -120,7 +179,8 @@ namespace ProniaAB104.Areas.Admin.Controllers
                 CategoryId = (int)productVM.CategoryId,
                 ProductTags = new List<ProductTag>(),
                 ProductColors = new List<ProductColor>(),
-                ProductSizes = new List<ProductSize>()
+                ProductSizes = new List<ProductSize>(),
+                ProductImages = new List<ProductImage> { mainImage,hoverImage }
             };
 
             foreach (int tagId in productVM.TagIds)
@@ -148,6 +208,28 @@ namespace ProniaAB104.Areas.Admin.Controllers
                     SizeId = sizeID,
                 };
                 product.ProductSizes.Add(productSize);
+            }
+
+            TempData["Message"] = "";
+            foreach (IFormFile photo in productVM.Photos)
+            {
+                if (!photo.ValidateType("image/"))
+                {
+                    TempData["Message"] += $"<p class=\"text-danger\">{photo.FileName} file tipi uygun deyil</p>";
+                    continue;
+                }
+
+                if (!photo.ValidateSize(500))
+                {
+                    TempData["Message"] += $"<p class=\"text-danger\">{photo.FileName} file olcusu uygun deyil</p>";
+                    continue;
+                }
+                product.ProductImages.Add(new ProductImage
+                {
+                    Alternative = productVM.Name,
+                    IsPrimary = null,
+                    Url = await photo.CreateFile(_env.WebRootPath, "assets", "images", "website-images")
+                });
             }
 
             await _context.Products.AddAsync(product);
@@ -212,67 +294,102 @@ namespace ProniaAB104.Areas.Admin.Controllers
                 productVM.Tags = await _context.Tags.ToListAsync();
                 productVM.Colors = await _context.Colors.ToListAsync();
                 productVM.Sizes = await _context.Sizes.ToListAsync();
+                ModelState.AddModelError("CategoryId", "Bu adda category movcud deyil");
                 return View();
             }
 
-            //TAG
-            foreach (ProductTag pTag in existed.ProductTags)
-            {
-                if (!productVM.TagIds.Exists(tId=>tId==pTag.TagId))
-                {
-                    _context.ProductTags.Remove(pTag);
-                }
-            }
+            //TAG  Optimizasion (1) Yerindece silende istifade edirik
 
-            foreach (int tagId in productVM.TagIds)
+            //List<ProductTag> removeable = existed.ProductTags.Where(pt => !productVM.TagIds.Exists(tId => tId == pt.TagId)).ToList();
+            //_context.ProductTags.RemoveRange(removeable);
+
+            //TAG  Optimizasion (2) SaveChanges axirda edirikse istifade olunur.
+
+            existed.ProductTags.RemoveAll(pt => !productVM.TagIds.Exists(tId => tId == pt.TagId));
+
+
+            //foreach (ProductTag pTag in existed.ProductTags)
+            //{
+            //    if (!productVM.TagIds.Exists(tId=>tId==pTag.TagId))
+            //    {
+            //        _context.ProductTags.Remove(pTag);
+            //    }
+            //}
+
+            List<int> tagCreatable = productVM.TagIds.Where(tId => !existed.ProductTags.Exists(pt => pt.TagId == tId)).ToList();
+
+            foreach (int tagId in tagCreatable)
             {
-                if (!existed.ProductTags.Any(pt=>pt.TagId==tagId))
+                bool tagResult=await _context.Tags.AnyAsync(t=>t.Id==tagId);
+                if (!tagResult)
                 {
-                    existed.ProductTags.Add(new ProductTag 
-                    { 
-                        TagId = tagId 
-                    });
+                    productVM.Categories = await _context.Categories.ToListAsync();
+                    productVM.Tags = await _context.Tags.ToListAsync();
+                    productVM.Colors = await _context.Colors.ToListAsync();
+                    productVM.Sizes = await _context.Sizes.ToListAsync();
+                    ModelState.AddModelError("TagId", "Bu adda tag movcud deyil");
+                    return View();
                 }
+                existed.ProductTags.Add(new ProductTag
+                {
+                    TagId = tagId
+                });
             }
 
             //COLOR
-            foreach (ProductColor pColor in existed.ProductColors)
+
+            existed.ProductColors.RemoveAll(pc => !productVM.ColorIds.Exists(cId => cId == pc.ColorId));
+
+            List<int> colorCreatable = productVM.ColorIds.Where(cId => !existed.ProductColors.Exists(pc => pc.ColorId == cId)).ToList();
+
+            foreach (int colorId in colorCreatable)
             {
-                if (!productVM.ColorIds.Exists(cId => cId == pColor.ColorId))
+                bool sizeResult = await _context.Sizes.AnyAsync(c => c.Id == colorId);
+                if (!sizeResult)
                 {
-                    _context.ProductColors.Remove(pColor);
+                    productVM.Categories = await _context.Categories.ToListAsync();
+                    productVM.Tags = await _context.Tags.ToListAsync();
+                    productVM.Colors = await _context.Colors.ToListAsync();
+                    productVM.Sizes = await _context.Sizes.ToListAsync();
+                    ModelState.AddModelError("ColorId", "Bu adda color movcud deyil");
+                    return View();
                 }
+                existed.ProductColors.Add(new ProductColor
+                {
+                    ColorId = colorId
+                });
             }
 
-            foreach (int colorId in productVM.ColorIds)
-            {
-                if (!existed.ProductColors.Any(pc => pc.ColorId == colorId))
-                {
-                    existed.ProductColors.Add(new ProductColor
-                    {
-                        ColorId = colorId
-                    });
-                }
-            }
-            
             //SIZE
-            foreach (ProductSize pSize in existed.ProductSizes)
-            {
-                if (!productVM.SizeIds.Exists(sId => sId == pSize.SizeId))
-                {
-                    _context.ProductSizes.Remove(pSize);
-                }
-            }
 
-            foreach (int sizeId in productVM.SizeIds)
+            existed.ProductSizes.RemoveAll(pt => !productVM.SizeIds.Exists(sId => sId == pt.SizeId));
+
+            //foreach (ProductSize pSize in existed.ProductSizes)
+            //{
+            //    if (!productVM.SizeIds.Exists(sId => sId == pSize.SizeId))
+            //    {
+            //        _context.ProductSizes.Remove(pSize);
+            //    }
+            //}
+
+            List<int> sizeCreatable = productVM.SizeIds.Where(sId => !existed.ProductSizes.Exists(ps => ps.SizeId == sId)).ToList();
+
+            foreach (int sizeId in sizeCreatable)
             {
-                if (!existed.ProductSizes.Any(ps => ps.SizeId == sizeId))
+                bool sizeResult = await _context.Sizes.AnyAsync(s => s.Id == sizeId);
+                if (!sizeResult)
                 {
-                    existed.ProductSizes.Add(new ProductSize
-                    {
-                        SizeId = sizeId
-                    });
+                    productVM.Categories = await _context.Categories.ToListAsync();
+                    productVM.Tags = await _context.Tags.ToListAsync();
+                    productVM.Colors = await _context.Colors.ToListAsync();
+                    productVM.Sizes = await _context.Sizes.ToListAsync();
+                    ModelState.AddModelError("SizeId", "Bu adda size movcud deyil");
+                    return View();
                 }
+                existed.ProductSizes.Add(new ProductSize
+                {
+                    SizeId = sizeId
+                });
             }
 
 

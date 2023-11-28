@@ -3,7 +3,7 @@
     <div class="card" style="width: 18rem;">
         @foreach (Product product in Model.Products)
         {
-            <img src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true).Url" class="card-img-top" alt="...">
+            <img src="~/assets/images/website-images/@product.ProductImages.FirstOrDefault(p=>p.IsPrimary==true)?.Url" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">@product.Name</h5>
                 <p class="card-text">@product.Description</p>
