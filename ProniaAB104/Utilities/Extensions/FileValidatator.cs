@@ -20,7 +20,7 @@ namespace ProniaAB104.Utilities.Extensions
             }
             return false;
         }
-        public async static Task<string> CreateFile(this IFormFile file, string root, params string[] folders)
+        public async static Task<string> CreateFileAsync(this IFormFile file, string root, params string[] folders)
         {
             string fileExtension = Path.GetExtension(file.FileName);
             string fileName = $"{Guid.NewGuid()}{fileExtension}";

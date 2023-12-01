@@ -69,7 +69,7 @@ namespace ProniaAB104.Areas.Admin.Controllers
                 await slideVM.Photo.CopyToAsync(file);
             }
 
-            string fileName2 = await slideVM.Photo.CreateFile(_env.WebRootPath, "assets", "images", "slider");
+            string fileName2 = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "images", "slider");
 
             Slide slide = new Slide
             {
@@ -142,7 +142,7 @@ namespace ProniaAB104.Areas.Admin.Controllers
                     return View(slideVM);
                 }
 
-                string newImage = await slideVM.Photo.CreateFile(_env.WebRootPath, "assets", "images", "slider");
+                string newImage = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "images", "slider");
                 existed.Image.DeleteFile(_env.WebRootPath, "assets", "images", "slider");
                 existed.Image = newImage;
             }
