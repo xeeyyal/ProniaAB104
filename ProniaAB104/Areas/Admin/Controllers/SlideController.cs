@@ -63,13 +63,13 @@ namespace ProniaAB104.Areas.Admin.Controllers
 
             string fileName = Guid.NewGuid().ToString() + fileExtension;
 
-            string path = Path.Combine(_env.WebRootPath, @"assets\images\slider\", fileName);
+            string path = Path.Combine(_env.WebRootPath, @"assets\images\website-images\", fileName);
             using (FileStream file = new FileStream(path, FileMode.Create))
             {
                 await slideVM.Photo.CopyToAsync(file);
             }
 
-            string fileName2 = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "images", "slider");
+            string fileName2 = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "images", "website-images");
 
             Slide slide = new Slide
             {
@@ -142,8 +142,8 @@ namespace ProniaAB104.Areas.Admin.Controllers
                     return View(slideVM);
                 }
 
-                string newImage = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "images", "slider");
-                existed.Image.DeleteFile(_env.WebRootPath, "assets", "images", "slider");
+                string newImage = await slideVM.Photo.CreateFileAsync(_env.WebRootPath, "assets", "images", "website-images");
+                existed.Image.DeleteFile(_env.WebRootPath, "assets", "images", "website-images");
                 existed.Image = newImage;
             }
             
@@ -162,7 +162,7 @@ namespace ProniaAB104.Areas.Admin.Controllers
             Slide slide=await _context.Slides.FirstOrDefaultAsync(s=> s.Id == id);
             if (slide is null) return NotFound();
 
-            slide.Image.DeleteFile(_env.WebRootPath, "assets", "images", "slider");
+            slide.Image.DeleteFile(_env.WebRootPath, "assets", "images", "website-images");
 
             _context.Slides.Remove(slide);
             await _context.SaveChangesAsync();
