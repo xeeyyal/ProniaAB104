@@ -311,3 +311,8 @@ C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\obj\Debug\net6.0\refint\ProniaAB1
 C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\obj\Debug\net6.0\ProniaAB104.pdb
 C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\obj\Debug\net6.0\ProniaAB104.genruntimeconfig.cache
 C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\obj\Debug\net6.0\ref\ProniaAB104.dll
+C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Xeyal\Desktop\ProniaAB104\ProniaAB104\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll

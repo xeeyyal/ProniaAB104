@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ProniaAB104.Models;
 using System.Drawing;
 using Color = ProniaAB104.Models.Color;
@@ -6,7 +8,7 @@ using Size = ProniaAB104.Models.Size;
 
 namespace ProniaAB104.DAL
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<AppUser>
     {
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
