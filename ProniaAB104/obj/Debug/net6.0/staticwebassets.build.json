@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "V+yHjoMMNNaBdLoCu+KM7gs57NRA1DRa9cz0pQ9RfaA=",
+  "Hash": "pDSLFYRA+OY/GkU6BlwhoNPUaDjQ1P20JnBi2HZJLM8=",
   "Source": "ProniaAB104",
   "BasePath": "_content/ProniaAB104",
   "Mode": "Default",
@@ -2533,6 +2533,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\images\\error-404\\bg\\1-1920x886.png"
     },
     {
+      "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\eye-icon.png",
+      "SourceId": "ProniaAB104",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\",
+      "BasePath": "_content/ProniaAB104",
+      "RelativePath": "assets/images/eye-icon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\images\\eye-icon.png"
+    },
+    {
       "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\favicon.ico",
       "SourceId": "ProniaAB104",
       "SourceType": "Discovered",
@@ -4556,23 +4573,6 @@
       "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\3d28800d-3700-4aea-b6cc-b626b60006ec.jpg"
     },
     {
-      "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\website-images\\513b01d3-495d-46f6-81f5-93a36a86e44d.jpg",
-      "SourceId": "ProniaAB104",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\",
-      "BasePath": "_content/ProniaAB104",
-      "RelativePath": "assets/images/website-images/513b01d3-495d-46f6-81f5-93a36a86e44d.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\513b01d3-495d-46f6-81f5-93a36a86e44d.jpg"
-    },
-    {
       "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\website-images\\54a6a2b9-c764-486e-a6ca-407b4a5a4e1a.jpg",
       "SourceId": "ProniaAB104",
       "SourceType": "Discovered",
@@ -4792,23 +4792,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\8c8b90b7-365a-4c5c-8233-6a9d5704c463.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\website-images\\91622bc9-37fa-4bbe-8913-34e4d135e9f6.jpg",
-      "SourceId": "ProniaAB104",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\",
-      "BasePath": "_content/ProniaAB104",
-      "RelativePath": "assets/images/website-images/91622bc9-37fa-4bbe-8913-34e4d135e9f6.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\91622bc9-37fa-4bbe-8913-34e4d135e9f6.jpg"
     },
     {
       "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\website-images\\957cb63e-4c48-4a82-aca1-95f485c2b3c4.jpg",
@@ -5064,40 +5047,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\df8441d2-251c-43ae-8fbd-78e57596fabf.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\website-images\\e7beaceb-444f-43f2-a8d8-e1a2a2ed19e6.jpg",
-      "SourceId": "ProniaAB104",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\",
-      "BasePath": "_content/ProniaAB104",
-      "RelativePath": "assets/images/website-images/e7beaceb-444f-43f2-a8d8-e1a2a2ed19e6.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\e7beaceb-444f-43f2-a8d8-e1a2a2ed19e6.jpg"
-    },
-    {
-      "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\website-images\\f3b9b77e-d6da-444f-b36a-2268e101e0bd.jpg",
-      "SourceId": "ProniaAB104",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\",
-      "BasePath": "_content/ProniaAB104",
-      "RelativePath": "assets/images/website-images/f3b9b77e-d6da-444f-b36a-2268e101e0bd.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\images\\website-images\\f3b9b77e-d6da-444f-b36a-2268e101e0bd.jpg"
     },
     {
       "Identity": "C:\\Users\\Xeyal\\Desktop\\ProniaAB104\\ProniaAB104\\wwwroot\\assets\\images\\website-images\\f7825481-447e-4873-acda-212dc557e3b5.jpg",
