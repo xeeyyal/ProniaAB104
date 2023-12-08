@@ -26,6 +26,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
 
 builder.Services.AddScoped<LayoutService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+//builder.Services.AddHttpContextAccessor(); ikisinden birini istifade ede bilerik
 
 builder.Services.AddSession(options =>
 options.IdleTimeout = TimeSpan.FromSeconds(50)
