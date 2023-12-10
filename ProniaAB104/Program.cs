@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProniaAB104.DAL;
+using ProniaAB104.Interfaces;
 using ProniaAB104.Models;
 using ProniaAB104.Services;
 
@@ -25,6 +26,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
 ).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<LayoutService>();
+builder.Services.AddScoped<IEmailService,EmailService>();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 //builder.Services.AddHttpContextAccessor(); ikisinden birini istifade ede bilerik
 

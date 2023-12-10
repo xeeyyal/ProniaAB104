@@ -831,7 +831,7 @@
                                    data-tippy-theme="sharpborder"></i>
                             </a>
                         </div>
-                        <ul class="minicart-list">
+                        <ul class="minicart-list cart-item-holder">
                             @foreach (BasketItemVM item in basket)
                             {
                                 total += item.SubTotal;
@@ -866,7 +866,7 @@
                     </div>
                     <div class="group-btn_wrap d-grid gap-2">
                         <a asp-action="Index" asp-controller="basket" class="btn btn-dark">View Cart</a>
-                        <a href="checkout.html" class="btn btn-dark">Checkout</a>
+                        <a asp-action="Checkout" asp-controller="basket" class="btn btn-dark">Checkout</a>
                     </div>
                 </div>
             </div>

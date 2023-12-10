@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
+using ProniaAB104.Services;
 using ProniaAB104.ViewModels;
 
 namespace ProniaAB104.Controllers
@@ -14,8 +15,9 @@ namespace ProniaAB104.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+
             List<Slide> slides = _context.Slides.OrderBy(s => s.Order).ToList();
 
             List<Product> products = _context.Products.Include(p => p.ProductImages).ToList();
