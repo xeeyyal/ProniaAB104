@@ -17,19 +17,26 @@ namespace ProniaAB104.Areas.Admin.Controllers
             _context = context;
         }
         [Authorize(Roles = "Admin,Moderator")]
-        public async Task<IActionResult> Index(int page)
+        public async Task<IActionResult> Index(int page=1)
         {
+            int limit = 2;
             double count = await _context.Products.CountAsync();
 
-            List<Category> categories = await _context.Categories.Skip(page * 2).Take(2)
+            if (page > (int)Math.Ceiling(count / limit) || page <= 0)
+            {
+                return BadRequest();
+            }
+
+            List<Category> categories = await _context.Categories.Skip((page-1)*limit).Take(limit)
                 .Include(c => c.Products)
                 .ToListAsync();
 
             PaginateVM<Category> paginateVM = new PaginateVM<Category>
             {
-                CurrentPage = page + 1,
-                TotalPage = Math.Ceiling(count / 2),
-                Items = categories
+                CurrentPage = page,
+                TotalPage = (int)Math.Ceiling(count / limit),
+                Items = categories,
+                Limit= limit
             };
 
             return View(paginateVM);

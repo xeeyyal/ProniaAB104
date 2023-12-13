@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ProniaAB104.Areas.Admin.ViewModels;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
+using System.Collections.Generic;
 
 namespace ProniaAB104.Areas.Admin.Controllers
 {
@@ -18,19 +19,27 @@ namespace ProniaAB104.Areas.Admin.Controllers
             _context = context;
         }
         [Authorize(Roles = "Admin,Moderator")]
-        public async Task<IActionResult> Index(int page)
+        public async Task<IActionResult> Index(int page=1)
         {
+            int limit = 2;
+
             double count = await _context.Products.CountAsync();
 
-            List<Tag> tags = await _context.Tags.Skip(page * 2).Take(2)
+            if (page > (int)Math.Ceiling(count / limit) || page <= 0)
+            {
+                return BadRequest();
+            }
+
+            List<Tag> tags = await _context.Tags.Skip((page-1)*limit).Take(limit)
                 .Include(t => t.ProductTags)
                 .ToListAsync();
 
             PaginateVM<Tag> paginateVM = new PaginateVM<Tag>
             {
-                CurrentPage = page + 1,
-                TotalPage = Math.Ceiling(count / 2),
-                Items = tags
+                CurrentPage = page,
+                TotalPage = (int)Math.Ceiling(count / limit),
+                Items = tags,
+                Limit = limit
             };
 
             return View(paginateVM);
