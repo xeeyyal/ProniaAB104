@@ -29,6 +29,12 @@ namespace ProniaAB104.Controllers
             };
             return View(home);
         }
+
+        public IActionResult ErrorPage(string error)
+        {
+            error = "sdggsudygs";
+            return View(model : error);
+        }
         public IActionResult About()
         {
             return View();

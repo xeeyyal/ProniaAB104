@@ -20,15 +20,24 @@ namespace ProniaAB104.Areas.Admin.Controllers
             _env = env;
         }
         [Authorize(Roles = "Admin,Moderator")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page)
         {
-            List<Product> products = await _context.Products
+            double count = await _context.Products.CountAsync();
+
+            List<Product> products = await _context.Products.Skip(page*3).Take(3)
                 .Include(p => p.Category)
                 .Include(p => p.ProductImages.Where(pi => pi.IsPrimary == true))
-                .Include(pt => pt.ProductTags).ThenInclude(pt => pt.Tag)
+                //.Include(pt => pt.ProductTags).ThenInclude(pt => pt.Tag)
                 .ToListAsync();
 
-            return View(products);
+            PaginateVM<Product> paginateVM = new PaginateVM<Product>
+            {
+                CurrentPage = page + 1,
+                TotalPage = Math.Ceiling(count / 3),
+                Items = products
+            };
+
+            return View(paginateVM);
         }
         [Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Create()
@@ -498,7 +507,7 @@ namespace ProniaAB104.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0) return BadRequest();

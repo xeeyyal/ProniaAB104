@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProniaAB104.DAL;
 using ProniaAB104.Models;
+using ProniaAB104.Utilities.Exceptions;
 using ProniaAB104.ViewModels;
 
 namespace ProniaAB104.Controllers
@@ -15,7 +16,7 @@ namespace ProniaAB104.Controllers
         }
         public IActionResult Detail(int id)
         {
-            if (id <= 0) return BadRequest();
+            if (id <= 0) throw new WrongRequestException("Gonderilen sorgu yanlishdir");
 
             Product product = _context.Products
                 .Include(p => p.ProductColors).ThenInclude(pc => pc.Color)
@@ -33,7 +34,7 @@ namespace ProniaAB104.Controllers
                 Product = product,
                 RelatedProducts = relatedProducts
             };
-            if (product == null) return NotFound();
+            if (product == null) throw new NotFoundException("BELE BIR MEHSUL TAPILMADIR");
 
             return View(vm);
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ProniaAB104.Areas.Admin.ViewModels;
 using ProniaAB104.DAL;
@@ -17,10 +18,22 @@ namespace ProniaAB104.Areas.Admin.Controllers
             _context = context;
         }
         [Authorize(Roles = "Admin,Moderator")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page)
         {
-            List<Tag> tags = await _context.Tags.Include(t => t.ProductTags).ToListAsync();
-            return View(tags);
+            double count = await _context.Products.CountAsync();
+
+            List<Tag> tags = await _context.Tags.Skip(page * 2).Take(2)
+                .Include(t => t.ProductTags)
+                .ToListAsync();
+
+            PaginateVM<Tag> paginateVM = new PaginateVM<Tag>
+            {
+                CurrentPage = page + 1,
+                TotalPage = Math.Ceiling(count / 2),
+                Items = tags
+            };
+
+            return View(paginateVM);
         }
         [Authorize(Roles = "Admin,Moderator")]
         public IActionResult Create()

@@ -17,10 +17,22 @@ namespace ProniaAB104.Areas.Admin.Controllers
             _context = context;
         }
         [Authorize(Roles = "Admin,Moderator")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page)
         {
-            List<Category> categories = await _context.Categories.Include(c => c.Products).ToListAsync();
-            return View(categories);
+            double count = await _context.Products.CountAsync();
+
+            List<Category> categories = await _context.Categories.Skip(page * 2).Take(2)
+                .Include(c => c.Products)
+                .ToListAsync();
+
+            PaginateVM<Category> paginateVM = new PaginateVM<Category>
+            {
+                CurrentPage = page + 1,
+                TotalPage = Math.Ceiling(count / 2),
+                Items = categories
+            };
+
+            return View(paginateVM);
         }
         [Authorize(Roles = "Admin,Moderator")]
         public IActionResult Create()
